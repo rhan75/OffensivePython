@@ -5,12 +5,8 @@ import subprocess
 import sys
 import textwrap
 import threading
-#import debugpy
 
-# debugpy.listen(5678)
-# print("Waiting for debugger:")
-# debugpy.wait_for_client()
-# print("Attached to debugger!")
+
 
 class NetCat:
     def __init__(self, args, buffer=None):
@@ -39,7 +35,7 @@ class NetCat:
                     if recv_len < 4096:
                         break
                 if response:
-                    if 'BHP:' in response:
+                    if 'OFP:' in response:
                         print(response, end=' ')
                     else:
                         print(response)
@@ -80,7 +76,7 @@ class NetCat:
             cmd_buffer = b''
             while True:
                 try:
-                    client_socket.send(b'BHP: #>')
+                    client_socket.send(b'OFP: #>')
                     while '\n' not in cmd_buffer.decode():
                         cmd_buffer += client_socket.recv(64)
                     response = execute(cmd_buffer.decode())
@@ -95,7 +91,7 @@ class NetCat:
             echo_buffer = b''
             #print(echo_buffer.decode())
             while True:
-                client_socket.send(b'BHP: echo>')
+                client_socket.send(b'OFP: echo>')
                 while '\n' not in echo_buffer.decode():
                     echo_buffer += client_socket.recv(64)
                 echo_buffer = echo_buffer.strip()
