@@ -102,11 +102,11 @@ def execute(cmd):
     cmd = cmd.strip()
     if not cmd:
         return
-    try:
+    try: #Return error code when subprocess exception is raised
         output = subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
+        return output.decode()
     except subprocess.CalledProcessError as e:
-        output = bytes(f'Eror code: {e.returncode}\n', 'utf-8')
-    return output.decode()
+        return f'Eror code: {e.returncode}\n'
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(
