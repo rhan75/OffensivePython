@@ -104,7 +104,6 @@ def execute(cmd):
         return
     try:
         output = subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
-        #print(type(output))
     except subprocess.CalledProcessError as e:
         output = bytes(f'Eror code: {e.returncode}\n', 'utf-8')
     return output.decode()
